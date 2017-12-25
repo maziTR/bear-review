@@ -1,42 +1,59 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.css">
   <link rel="stylesheet" type="text/css" href="style.css">
-  <title>Beer Review</title>
+  <title>Bear Review</title>
 </head>
+
 <body>
+
   <div class="row">
-    <div class="col-md-6 col-md-offset-3">
-      <div class="page-header">
-        <h1>Beer Review</h1>
+    <div class="container">
+      <div class="col-md-6 col-md-offset-3">
+        <div class="page-header">
+          <h1>Bear Review</h1>
+        </div>
+
+        <section class="bears">
+          <h2>Bears</h2>
+          <ul class="bears-list"></ul>
+        </section>
+
+        <form class="bear-form">
+          <h3>Add a New bear</h3>
+
+          <div class="form-group">
+            <input type="text" class="bear-input form-control" placeholder="Bear Name">
+          </div>
+
+          <div class="form-group">
+            <input type="text" class="category-input form-control" placeholder="Category">
+          </div>
+
+          <div class="form-group">
+            <label for="selCuteness">How cure this bear is:</label>
+            <select class="form-control" id="selCuteness">
+              <option value="" disabled selected>Select level of cuteness</option>
+              <option value="0">0 - Not cute :(</option>
+              <option value="1">1 - Regular</option>
+              <option value="2">2 - Cute</option>
+              <option value="3">3 - Very cute</option>
+              <option value="4">4 - Extremely cute</option>
+              <option value="5">5 - I could eat him</option>
+            </select>
+          </div>
+
+          <button class="btn btn-primary post-bear" type="button">Post</button>
+          <button class="btn btn-primary sort-bear" type="button">Sort by cutness</button>
+
+        </form>
       </div>
-
-      <section class="beers">
-        <h2>Beers</h2>
-        <ul class="beers-list"></ul>
-      </section>
-
-      <form class="beer-form">
-        <h3>Add a New Beer</h3>
-
-        <div class="form-group">
-          <input type="text"
-            class="beer-input form-control"
-            placeholder="Beer Name">
-        </div>
-        
-        <div class="form-group">
-          <input type="text"
-            class="category-input form-control"
-            placeholder="Category">
-        </div>
-        
-        <button class="btn btn-primary post-beer" type="button">Post</button>
-      </form>
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
   <script src="script.js"></script>
 </body>
+
 </html>

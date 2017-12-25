@@ -5,3 +5,14 @@ form {
 .user-post, .user-review {
   font-weight: bold;
 }
+
+.row {
+   margin-right: 0; 
+   margin-left: 0; 
+}
+
+.alert {
+  margin-top: 30px;
+  bottom: 0;
+  position: relative;
+}

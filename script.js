@@ -1,91 +1,106 @@
 $(document).ready(function(){
+    
+        var $bearName = $('.bear-input');
+        var $bearCat = $('.category-input');
+        var $bearCute = $('#selCuteness');
 
-    var bears = [];
-    var sortBol = false;
-    var bearName = $('.bear-input').val();
-    var bearCat = $('.category-input').val();
-    var bearCute = $('#selCuteness').val();
+        var bearName = $bearName.val();
+        var bearCat = $bearCat.val();
+        var bearCute = $bearCat.val();
 
-    //adding bears tothe bear array
-    function addBear(bName, bCategory, bCute){
-        var currBear = {
-            name: bName,
-            category:bCategory,
-            cuteness: bCute
-        }
-        bears.push(currBear);
-    }
-
-    //updating bear list
-    function renderBears(){
-        $('.bears-list').empty();
-
-        bears.forEach(function(bear) {
-            $('.bears-list').append("<li>This bear's name is " + bear.name + ". He is a " + bear.category + " bear. Cuteness level: "+bear.cuteness+"</li>");
-        });
-    }
-
-    $('.post-bear').click(function(){
-        $('.alert-warning').remove();
-        updateBearVars();
-
-        //checking the validation of the fields
-        if (bearName.length >0 && bearCat.length >0 && bearCute !== null){
-            addBear(bearName, bearCat, bearCute);
-            renderBears();
-            clearFields();
-        }
-        else{  
+        //var for list sorting
+        var sortBol = false;
         
-        var msg = " Your bear is not valid, please insert: " + getErrMsg();
-        $('.container').append("<div class='alert alert-warning col-md-6 col-md-offset-3'><strong>Warning!</strong> "+msg+"</div>");
-        }
-    });
-
-    function clearFields(){
-         $('.bear-input').val('');
-         $('.category-input').val('');
-         $('#selCuteness').val('');
-    }
-
-    function updateBearVars(){
-        bearName = $('.bear-input').val();
-        bearCat = $('.category-input').val();
-        bearCute = $('#selCuteness').val();
-    }
-
-    //checking if the fields are not empty, and returnin
-    function getErrMsg(){
-        var currMsgs = ['bear name ', 'bear catrgory ', 'bear cuteness rating '];
-        var varArr = [bearName,bearCat,bearCute];
-        var missingMsg ="";
-
-        for (var i=0;i<currMsgs.length;i++){
-            if (varArr[i] === null || varArr[i] === ""){
-                    missingMsg+= currMsgs[i] + ", ";
+        var bearAppModule = function(){
+            var bears = [];
+            
+            //adding bears tothe bear array
+            var addBear = function (bName, bCategory, bCute){
+                bears.push({name: bName, category:bCategory, cuteness: bCute });
+            }
+    
+            //updating bear list
+            var updateBears = function (){
+                var $bearList = $('.bears-list');
+                $bearList.empty();
+    
+                bears.forEach(function(bear) {
+                    $bearList.append("<li>This bear's name is " + bear.name + ". He is a " + bear.category + " bear. Cuteness level: "+bear.cuteness+"</li>");
+                });
+            }
+            
+            return {
+                updateBears: updateBears,
+                addBear: addBear,
+                getBears: bears
             }
         }
-
-        missingMsg = missingMsg.slice(0 ,missingMsg.length-2) + ".";
-       
-        return missingMsg;
-   }
     
-    $('.sort-bear').click(function(){
-        if (!sortBol){
-            bears.sort(function(a, b){
-                return a.cuteness-b.cuteness
-            });
+        var bearApp = bearAppModule();
+    
+        $('.post-bear').click(function(){
+    
+            $('.alert-warning').remove();
+            updateBearVars();
+    
+            //checking the validation of the fields
+            if (bearName.length >0 && bearCat.length >0 && bearCute !== null){
+                bearApp.addBear(bearName, bearCat, bearCute);
+                bearApp.updateBears();
+                clearFields();
+            }
+            else{  
+            var msg = " Your bear is not valid, please insert: " + getErrMsg();
+            $('.container').append("<div class='alert alert-warning col-md-6 col-md-offset-3'>"+
+            "<strong>Warning!</strong> "+msg+"</div>");
+            }
+        });
+    
+        function clearFields(){
+             $bearName.val('');
+             $bearCat.val('');
+             $bearCute.val('');
         }
-        else{
-            bears.sort(function(a, b){
-                return b.cuteness-a.cuteness
-            });
+    
+        function updateBearVars(){
+            bearName = $bearName.val();
+            bearCat = $bearCat.val();
+            bearCute = $bearCute.val();
         }
-
-        sortBol = !sortBol;
-        renderBears();
+    
+        //checking if the fields are not empty, and return it
+        function getErrMsg(){
+            var currMsgs = ['bear name ', 'bear catrgory ', 'bear cuteness rating '];
+            var varArr = [bearName, bearCat, bearCute];
+            var missingMsg ="";
+    
+            for (var i=0;i<currMsgs.length;i++){
+                if (varArr[i] === null || varArr[i] === ""){
+                        missingMsg+= currMsgs[i] + ", ";
+                }
+            }
+    
+            missingMsg = missingMsg.slice(0, missingMsg.length-2) + ".";
+           
+            return missingMsg;
+       }
+        
+        $('.sort-bear').click(function(){
+            if (!sortBol){
+                bearApp.getBears.sort(function(a, b){
+                    return a.cuteness-b.cuteness
+                });
+            }
+            else{
+                bearApp.getBears.sort(function(a, b){
+                    return b.cuteness-a.cuteness
+                });
+            }
+    
+            sortBol = !sortBol;
+            bearApp.updateBears();
+        });
+    
     });
-
-});
-
+    
+    
